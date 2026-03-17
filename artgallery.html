@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jahangir Art Gallery | The Heart of Indian Contemporary Art</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        gallery: {
+                            50: '#F9F9F8',  // Canvas white
+                            100: '#F0EFEA', // Plaster
+                            800: '#2C2B29', // Charcoal ink
+                            900: '#1A1A19', // Deep gallery black
+                        },
+                        terracotta: {
+                            500: '#C05640', // Heritage sandstone/terracotta accent
+                            600: '#A34633',
+                        }
+                    },
+                    transitionTimingFunction: {
+                        'slow-ease': 'cubic-bezier(0.16, 1, 0.3, 1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Minimalist Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F9F9F8; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D1D1D1; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #A0A0A0; 
+        }
+
+        /* Image Hover Zoom Utility */
+        .img-zoom-container {
+            overflow: hidden;
+        }
+        .img-zoom-container img {
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .img-zoom-container:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Fade In On Scroll Classes */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Text Selection */
+        ::selection {
+            background-color: #C05640;
+            color: #F9F9F8;
+        }
+    </style>
+</head>
+<body class="bg-gallery-50 text-gallery-900 antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full top-0 z-50 px-6 py-5 transition-all duration-500 ease-slow-ease">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex flex-col items-start group">
+                <span class="font-serif text-2xl tracking-wide leading-none text-gallery-900 transition-colors">JAHANGIR</span>
+                <span class="font-sans text-[10px] tracking-[0.3em] uppercase text-gallery-800 mt-1 transition-colors">Art Gallery • Mumbai</span>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-10 font-sans text-xs tracking-widest uppercase">
+                <a href="#exhibitions" class="nav-link relative group overflow-hidden">
+                    On View
+                    <span class="absolute bottom-0 left-0 w-full h-[1px] bg-terracotta-500 transform -translate-x-[101%] group-hover:translate-x-0 transition-transform duration-300"></span>
+                </a>
+                <a href="#heritage" class="nav-link relative group overflow-hidden">
+                    The Legacy
+                    <span class="absolute bottom-0 left-0 w-full h-[1px] bg-terracotta-500 transform -translate-x-[101%] group-hover:translate-x-0 transition-transform duration-300"></span>
+                </a>
+                <a href="#visit" class="nav-link relative group overflow-hidden">
+                    Visit
+                    <span class="absolute bottom-0 left-0 w-full h-[1px] bg-terracotta-500 transform -translate-x-[101%] group-hover:translate-x-0 transition-transform duration-300"></span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-gallery-900 p-2 z-50 relative">
+                <i data-lucide="menu" id="menu-icon" class="w-6 h-6 transition-transform duration-300"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-gallery-50 transform translate-x-full transition-transform duration-700 ease-slow-ease flex flex-col justify-center items-center px-6">
+        <div class="flex flex-col gap-8 text-center font-serif text-4xl text-gallery-900">
+            <a href="#exhibitions" class="mobile-link hover:text-terracotta-500 transition-colors">On View</a>
+            <a href="#heritage" class="mobile-link hover:text-terracotta-500 transition-colors">The Legacy</a>
+            <a href="#visit" class="mobile-link hover:text-terracotta-500 transition-colors">Plan Your Visit</a>
+        </div>
+        <div class="mt-16 text-center font-sans text-sm text-gallery-800">
+            <p>161B, Mahatma Gandhi Road</p>
+            <p>Kala Ghoda, Fort, Mumbai</p>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen flex items-center justify-center overflow-hidden">
+        <!-- Hero Image (Using a high-quality art/gallery placeholder) -->
+        <div class="absolute inset-0 w-full h-full">
+            <img src="https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?q=80&w=2500&auto=format&fit=crop" 
+                 alt="Gallery Interior" 
+                 class="w-full h-full object-cover object-center scale-105 animate-[zoomOut_10s_ease-out_forwards]"
+                 onerror="this.src='https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=2500&auto=format&fit=crop'">
+            <!-- Subtle gradient overlay to ensure text readability -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-gallery-50/90"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 mt-20 fade-up">
+            <p class="font-sans text-white text-xs md:text-sm tracking-[0.4em] uppercase mb-6">Established 1952</p>
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-white mb-6 drop-shadow-lg">
+                The Heart of<br>
+                <span class="italic font-light">Indian Art.</span>
+            </h1>
+            <a href="#exhibitions" class="inline-flex items-center gap-3 text-white font-sans text-xs tracking-[0.2em] uppercase border-b border-white/50 pb-2 hover:border-white transition-colors mt-8 group">
+                Explore Current Exhibitions
+                <i data-lucide="arrow-down" class="w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Introduction Statement -->
+    <section class="py-24 md:py-32 px-6 bg-gallery-50">
+        <div class="max-w-4xl mx-auto text-center fade-up">
+            <i data-lucide="palette" class="w-8 h-8 mx-auto text-terracotta-500 mb-8"></i>
+            <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl leading-tight text-gallery-900">
+                A landmark of the Kala Ghoda art district, dedicated to nurturing the pulse of contemporary Indian creativity for over seven decades.
+            </h2>
+        </div>
+    </section>
+
+    <!-- On View Section -->
+    <section id="exhibitions" class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-up">
+            <div>
+                <span class="font-sans text-terracotta-500 text-xs tracking-[0.2em] uppercase block mb-3">Currently</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-gallery-900">On View</h2>
+            </div>
+            <a href="#" class="hidden md:inline-flex items-center gap-2 font-sans text-xs tracking-widest uppercase hover:text-terracotta-500 transition-colors">
+                View Calendar <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <!-- Exhibition Card 1 -->
+            <article class="group cursor-pointer fade-up">
+                <div class="img-zoom-container mb-6 aspect-[4/3] bg-gallery-100">
+                    <img src="https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?q=80&w=1200&auto=format&fit=crop" 
+                         alt="Abstract Painting" 
+                         class="w-full h-full object-cover">
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="font-sans text-xs text-gallery-800 tracking-widest uppercase mb-2">Auditorium Hall • Till Oct 24</p>
+                        <h3 class="font-serif text-2xl text-gallery-900 mb-2 group-hover:text-terracotta-500 transition-colors">Rhythms of the Earth</h3>
+                        <p class="font-sans text-sm text-gallery-800">A solo exhibition by Anjali Desai exploring rural landscapes through modern abstraction.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Exhibition Card 2 -->
+            <article class="group cursor-pointer fade-up" style="transition-delay: 100ms;">
+                <div class="img-zoom-container mb-6 aspect-[4/3] bg-gallery-100">
+                    <img src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?q=80&w=1200&auto=format&fit=crop" 
+                         alt="Sculpture Exhibition" 
+                         class="w-full h-full object-cover">
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="font-sans text-xs text-gallery-800 tracking-widest uppercase mb-2">Exhibition Gallery 1 • Till Oct 28</p>
+                        <h3 class="font-serif text-2xl text-gallery-900 mb-2 group-hover:text-terracotta-500 transition-colors">Forms in Bronze</h3>
+                        <p class="font-sans text-sm text-gallery-800">A retrospective of contemporary Indian sculptors curated by the Bombay Art Society.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Exhibition Card 3 -->
+            <article class="group cursor-pointer fade-up">
+                <div class="img-zoom-container mb-6 aspect-[4/3] bg-gallery-100">
+                    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1200&auto=format&fit=crop" 
+                         alt="Portrait Art" 
+                         class="w-full h-full object-cover">
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="font-sans text-xs text-gallery-800 tracking-widest uppercase mb-2">Hirji Gallery • Till Nov 02</p>
+                        <h3 class="font-serif text-2xl text-gallery-900 mb-2 group-hover:text-terracotta-500 transition-colors">Faces of the Metropolis</h3>
+                        <p class="font-sans text-sm text-gallery-800">Photographic essays capturing the diverse streets of Mumbai.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Exhibition Card 4 -->
+            <article class="group cursor-pointer fade-up" style="transition-delay: 100ms;">
+                <div class="img-zoom-container mb-6 aspect-[4/3] bg-gallery-100 flex items-center justify-center p-8 text-center bg-[#1A1A19]">
+                   <div class="text-white">
+                        <i data-lucide="calendar-days" class="w-10 h-10 mx-auto mb-4 text-terracotta-500"></i>
+                        <h3 class="font-serif text-2xl mb-2">Upcoming Exhibitions</h3>
+                        <p class="font-sans text-sm text-gray-400 mb-6">Discover what's arriving next month.</p>
+                        <button class="font-sans text-xs tracking-widest uppercase border border-white/30 px-6 py-3 hover:bg-white hover:text-black transition-colors">
+                            View Schedule
+                        </button>
+                   </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Heritage Section (Split Layout) -->
+    <section id="heritage" class="py-24 bg-gallery-100">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
+            <div class="w-full lg:w-1/2 fade-up">
+                <div class="img-zoom-container aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 bg-gallery-50">
+                    <img src="https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1000&auto=format&fit=crop" 
+                         alt="Gallery Architecture" 
+                         class="w-full h-full object-cover grayscale opacity-90">
+                </div>
+            </div>
+            
+            <div class="w-full lg:w-1/2 fade-up" style="transition-delay: 200ms;">
+                <span class="font-sans text-terracotta-500 text-xs tracking-[0.2em] uppercase block mb-4">The Legacy</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-gallery-900 mb-8 leading-tight">Founded by Sir Cowasji Jehangir.</h2>
+                <div class="font-sans text-gallery-800 space-y-6 leading-relaxed">
+                    <p>
+                        Since its inception in 1952, the Jahangir Art Gallery has been closely associated with the development of contemporary Indian art. The gallery was designed by Durga Bajpai and is one of the early concrete structures in the city.
+                    </p>
+                    <p>
+                        It is not just an exhibition space; it is an institution that has hosted the works of legendary masters like M.F. Husain, S.H. Raza, and Amrita Sher-Gil, while continually providing a platform for emerging talent from across the subcontinent.
+                    </p>
+                </div>
+                <div class="mt-10 pt-10 border-t border-gallery-900/10">
+                    <p class="font-serif text-2xl italic text-gallery-900">"A sanctuary where the city's noise fades, and the canvas speaks."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visit / Footer Section -->
+    <footer id="visit" class="bg-gallery-900 text-gallery-50 pt-24 pb-12 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20 fade-up">
+                
+                <!-- Brand -->
+                <div class="col-span-1 lg:col-span-1">
+                    <span class="font-serif text-3xl tracking-wide leading-none block mb-2">JAHANGIR</span>
+                    <span class="font-sans text-[10px] tracking-[0.3em] uppercase text-gray-400">Art Gallery</span>
+                </div>
+
+                <!-- Info 1 -->
+                <div>
+                    <h4 class="font-sans text-xs tracking-[0.2em] uppercase text-terracotta-500 mb-6">Location</h4>
+                    <address class="font-sans text-sm text-gray-300 not-italic space-y-2">
+                        <p>161B, Mahatma Gandhi Road</p>
+                        <p>Kala Ghoda, Fort</p>
+                        <p>Mumbai, Maharashtra 400001</p>
+                    </address>
+                    <a href="#" class="inline-flex items-center gap-2 font-sans text-xs text-white border-b border-white/30 pb-1 mt-6 hover:border-white transition-colors">
+                        Open in Maps <i data-lucide="map-pin" class="w-3 h-3"></i>
+                    </a>
+                </div>
+
+                <!-- Info 2 -->
+                <div>
+                    <h4 class="font-sans text-xs tracking-[0.2em] uppercase text-terracotta-500 mb-6">Hours & Entry</h4>
+                    <ul class="font-sans text-sm text-gray-300 space-y-3">
+                        <li class="flex justify-between border-b border-white/10 pb-2">
+                            <span>Open Daily</span>
+                            <span>11:00 AM - 7:00 PM</span>
+                        </li>
+                        <li class="pt-2 text-terracotta-500">
+                            Entry is free for all visitors.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-sans text-xs tracking-[0.2em] uppercase text-terracotta-500 mb-6">Contact</h4>
+                    <ul class="font-sans text-sm text-gray-300 space-y-2">
+                        <li>info@jahangirartgallery.com</li>
+                        <li>+91 22 2284 3989</li>
+                    </ul>
+                    <div class="flex gap-4 mt-8">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 font-sans text-xs text-gray-500 uppercase tracking-widest">
+                <p>&copy; 2026 Jahangir Art Gallery.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CSS Keyframes inline for Hero Animation -->
+    <style>
+        @keyframes zoomOut {
+            from { transform: scale(1.1); }
+            to { transform: scale(1); }
+        }
+    </style>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // --------------------------------------------------------
+        // Mobile Menu Logic
+        // --------------------------------------------------------
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen;
+            
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
+                // Change icon to 'X'
+                menuIcon.setAttribute('data-lucide', 'x');
+                // Force navbar text to be dark when menu is open
+                document.getElementById('navbar').classList.add('bg-gallery-50');
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                // Change icon back to 'menu'
+                menuIcon.setAttribute('data-lucide', 'menu');
+                handleScroll(); // Reset navbar color based on scroll position
+            }
+            lucide.createIcons(); // Re-render the icon
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // --------------------------------------------------------
+        // Navbar Scroll Logic (Transparent to Solid)
+        // --------------------------------------------------------
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const logoTexts = navbar.querySelectorAll('span');
+
+        function handleScroll() {
+            if (isMenuOpen) return; // Don't change styles if mobile menu is open
+            
+            if (window.scrollY > 100) {
+                // Scrolled state: White background, Dark text
+                navbar.classList.add('bg-gallery-50/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                navbar.classList.remove('py-5');
+                
+                logoTexts.forEach(span => span.classList.replace('text-white', 'text-gallery-900') || span.classList.replace('text-gray-300', 'text-gallery-800'));
+                navLinks.forEach(link => link.classList.replace('text-white', 'text-gallery-900'));
+                mobileMenuBtn.classList.replace('text-white', 'text-gallery-900');
+            } else {
+                // Top state: Transparent background, White text (to contrast with Hero image)
+                navbar.classList.remove('bg-gallery-50/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                navbar.classList.add('py-5');
+
+                logoTexts[0].classList.replace('text-gallery-900', 'text-white') || logoTexts[0].classList.add('text-white');
+                logoTexts[1].classList.replace('text-gallery-800', 'text-gray-300') || logoTexts[1].classList.add('text-gray-300');
+                navLinks.forEach(link => {
+                    link.classList.replace('text-gallery-900', 'text-white') || link.classList.add('text-white');
+                });
+                mobileMenuBtn.classList.replace('text-gallery-900', 'text-white') || mobileMenuBtn.classList.add('text-white');
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        // Trigger once on load to set initial state
+        handleScroll();
+
+        // --------------------------------------------------------
+        // Scroll Fade-Up Animation Logic (Intersection Observer)
+        // --------------------------------------------------------
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 // Trigger when 15% of the element is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Optional: Unobserve after animating once to keep it showing
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
